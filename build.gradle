@@ -1,0 +1,51 @@
+plugins {
+    id 'java' 
+    id 'jacoco' 
+}
+
+jacocoTestReport {
+    classDirectories.setFrom(
+            fileTree("${project.buildDir}/classes/java/main") {
+                exclude('**/Main.class')
+            }
+    )
+    reports {
+        xml.required = true
+    }
+}
+
+
+
+repositories {
+    mavenCentral() 
+}
+
+
+dependencies {
+    implementation platform('org.junit:junit-bom:5.9.2') // JUnit BOM
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+    // Dependency for running tests via console
+    testRuntimeOnly 'org.junit.platform:junit-platform-console-standalone:1.9.2'
+
+    // Dependencies for Mockito
+    testImplementation 'org.mockito:mockito-core:5.2.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.2.0'
+}
+
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+
+tasks.withType(Javadoc) {
+    options.encoding = 'UTF-8'
+}
+
+
+
