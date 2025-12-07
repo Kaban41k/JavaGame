@@ -25,7 +25,7 @@ public class SpriteManager {
     }
 
     public void startAnimation(ArrayList<Image> animation, boolean animCycle) {
-        if (anim.isEmpty())
+        if (animation.isEmpty())
             return;
 
         anim = animation;
