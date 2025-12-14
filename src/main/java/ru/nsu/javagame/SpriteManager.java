@@ -10,12 +10,14 @@ public class SpriteManager {
 
     private ArrayList<Image> anim;
     private int animI = -1;
+    private int animDelay = 1;
+    private int delayCounter = 0;
 
     private boolean play = false;
     private boolean cycle = false;
 
-    public int width = 150;
-    public int height = 150;
+    public int width = 200;
+    public int height = 100;
 
     public int x = 0;
     public int y = 0;
@@ -24,12 +26,13 @@ public class SpriteManager {
         sprite = img;
     }
 
-    public void startAnimation(ArrayList<Image> animation, boolean animCycle) {
+    public void startAnimation(ArrayList<Image> animation, boolean animCycle, int delay) {
         if (animation.isEmpty())
             return;
 
         anim = animation;
         animI = 0;
+        animDelay = delay;
         play = true;
         cycle = animCycle;
     }
@@ -49,14 +52,18 @@ public class SpriteManager {
         if (!play)
             return sprite;
 
-        Image result = anim.get(animI++);
+        if (++delayCounter >= animDelay) {
+            Image result = anim.get(animI++);
 
-        if (animI >= anim.size()) {
-            animI = 0;
-            play = cycle;
+            if (animI >= anim.size()) {
+                animI = 0;
+                play = cycle;
+            }
+
+            delayCounter = 0;
+            return result;
         }
-
-        return result;
+        return anim.get(animI);
     }
 
     ImageView getImageView() {
