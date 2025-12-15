@@ -9,11 +9,24 @@ public class Bullet extends Entity{
     private Direction direction;
     private int bulletSpeed = 1;
     private int damage;
+    private Entity owner;
 
     public Bullet(Vector topLeft, Vector bottomRight, Direction dir, int dam) {
         super(topLeft, bottomRight);
         direction = dir;
         damage = dam;
+    }
+
+    public void setOwner(Entity ownr) {
+        owner = ownr;
+    }
+
+    public boolean isOwner(Entity ownr) {
+        return ownr.equals(owner);
+    }
+
+    public Entity getOwner() {
+        return owner;
     }
 
     public void setBulletSpeed(int speed) {

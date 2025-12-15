@@ -24,7 +24,8 @@ public class Player extends Entity implements Movement{
         gun.shoot(new Vector(centerPoint.x - (bulletSize.x / 2),
                 centerPoint.y - (bulletSize.y / 2)),
                 new Vector(centerPoint.x + (bulletSize.x / 2),
-                centerPoint.y + (bulletSize.y / 2)), playerShootDamage);
+                centerPoint.y + (bulletSize.y / 2)), playerShootDamage, this);
+
     }
 
     public HPManager getHpManager() {

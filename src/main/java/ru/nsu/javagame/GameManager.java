@@ -41,23 +41,40 @@ public class GameManager {
     }
 
     private static void checkEnemyOrPlayerKill() {
+        List<Bullet> bulletsToRemove = new ArrayList<>();
+        List<Bullet> bulletsToRemovePlayer = new ArrayList<>();
+        List<Entity> entitiesToRemove = new ArrayList<>();
+
         for (Bullet bullet : bulletList) {
             for (Entity entity : entityList) {
-                if (entity.checkIntersects(bullet)) {
-                    entityList.remove(entity);
-                    bulletList.remove(bullet);
-                    break;
-                }
-                else if (player.checkIntersects(bullet)) {
-                    bulletList.remove(bullet);
-                    if (playerHealth.getHP() <= bullet.getDamage()) {
-                        playerHealth.damage(playerHealth.getHP() - bullet.getDamage());
-                        gameOver = true;
-                        break;
+                if (!bullet.isOwner(entity) && entity.checkIntersects(bullet)) {
+                    if (!entitiesToRemove.contains(entity)) {
+                        entitiesToRemove.add(entity);
                     }
+                    if (!bulletsToRemove.contains(bullet)) {
+                        bulletsToRemove.add(bullet);
+                    }
+
                 }
             }
         }
+
+        entityList.removeAll(entitiesToRemove);
+        bulletList.removeAll(bulletsToRemove);
+
+        for (Bullet bullet : bulletList) {
+            if (player.checkIntersects(bullet)) {
+                bulletsToRemovePlayer.add(bullet);
+                if (playerHealth.getHP() <= bullet.getDamage()) {
+                    playerHealth.damage(playerHealth.getHP() - bullet.getDamage());
+                    gameOver = true;
+                    bulletList.removeAll(bulletsToRemovePlayer);
+                    break;
+                }
+            }
+        }
+
+        bulletList.removeAll(bulletsToRemovePlayer);
     }
 
     private static void fireAll() {
@@ -72,10 +89,10 @@ public class GameManager {
     public static void tick() {
         moveAll();
         fireAll();
-        //checkEnemyOrPlayerKill();
-        //handleCollisions();
-        //updateScore();
-        //checkWinLose();
+        checkEnemyOrPlayerKill();
+        handleCollisions();
+        updateScore();
+        checkWinLose();
         GameWindow.moveBackground();
     }
 
@@ -108,6 +125,10 @@ public class GameManager {
 
     public static void addEntity(Entity entity) {
         entityList.add(entity);
+    }
+
+    public static void addBullet(Bullet bullet) {
+        bulletList.add(bullet);
     }
 
     public boolean isGameOver(){

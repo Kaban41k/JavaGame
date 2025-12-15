@@ -12,7 +12,7 @@ public class PlayerTest {
         Vector topLeft = new Vector(0, 0);
         Vector bottomRight = new Vector(10, 10);
         HPManager hpMgr = new HPManager(100);
-        Gun gun = new Gun(Direction.RIGHT, 10);
+        Gun gun = new Gun(Direction.RIGHT, 0, 10);
         GameManager gameManager = new GameManager();
 
         Player player = new Player(topLeft, bottomRight, hpMgr, gun);
@@ -25,7 +25,7 @@ public class PlayerTest {
         Vector topLeft = new Vector(0, 0);
         Vector bottomRight = new Vector(2, 2);
         HPManager hpMgr = new HPManager(100);
-        Gun gun = new Gun(Direction.RIGHT, 10);
+        Gun gun = new Gun(Direction.RIGHT, 0, 10);
         GameManager gameManager = new GameManager();
 
         Player player = new Player(topLeft, bottomRight, hpMgr, gun);
