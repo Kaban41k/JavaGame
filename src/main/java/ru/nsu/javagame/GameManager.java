@@ -9,10 +9,15 @@ public class GameManager {
     private HPManager playerHealth;
     private CollisionManager collisionManager;
     private boolean gameOver = false;
+    private int enemyDamage;
 
     public GameManager(HPManager health) {
         playerHealth = health;
         collisionManager = new CollisionManager(this.entityList);
+    }
+
+    public void setEnemyDamage(int damage) {
+        enemyDamage = damage;
     }
 
     public void initializeGame(Player player, List<Entity> enemies) {
@@ -21,12 +26,10 @@ public class GameManager {
     }
 
     public void tick() {
-        if (player instanceof Movement) {
-            ((Movement)player).move();
-        }
         for (Entity entity : entityList) {
-            if (entity instanceof Movement) {
-                ((Movement)entity).move();
+            if (entity instanceof Enemy) {
+                Vector movVect = entity.getMovVect();
+                entity.move(movVect);
             }
         }
         handleCollisions();
@@ -38,8 +41,21 @@ public class GameManager {
         collisionManager.checkForCollisions();
     }
 
-    private void updateScore() {
+    private void _updateScore(int damage) {
+        if (playerHealth.getHP() > damage) {
+            playerHealth.damage(damage);
+        }
+        else {
+            gameOver = true;
+        }
+    }
 
+    private void updateScore() {
+        for (Entity entity : entityList) {
+            if (player.checkIntersects(entity)) {
+                _updateScore(enemyDamage);
+            }
+        }
     }
 
     private void checkWinLose() {
@@ -50,6 +66,7 @@ public class GameManager {
 
     public void addEntity(Entity entity) {
         entityList.add(entity);
+
     }
 
     public boolean isGameOver(){

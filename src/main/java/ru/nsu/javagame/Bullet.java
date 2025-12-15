@@ -20,7 +20,7 @@ public class Bullet extends Entity{
     }
 
     @Override
-    public boolean move() {
+    public boolean move(Vector movVect) {
         switch (direction) {
             case LEFT:
                 setTopLeft(new Vector(getTopLeft().x - 1, getTopLeft().y));
