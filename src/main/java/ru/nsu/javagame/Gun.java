@@ -1,16 +1,17 @@
 package ru.nsu.javagame;
 
 public class Gun {
-    private int bulletSpeed;
+    private int gunSpeed;
     private Direction shootDirection;
 
     public Gun(Direction d, int speed) {
-        bulletSpeed = speed;
+        gunSpeed = speed;
         shootDirection = d;
     }
 
-    public int getBulletSpeed() {
-        return bulletSpeed;
+
+    public int getGunSpeed() {
+        return gunSpeed;
     }
 
     public Bullet shoot(Vector topLeft, Vector bottomRight, int damage) {
