@@ -4,8 +4,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Player extends Entity implements Movement{
-    private HPManager hpMan;
-    private Gun gun;
+    public HPManager hpMan;
+    public Gun gun;
     private Vector bulletSize = new Vector((double) 2, (double) 2);
     private int playerShootDamage = 2;
 
@@ -26,16 +26,10 @@ public class Player extends Entity implements Movement{
     public void fire() {
         Vector centerPoint = new Vector((getTopLeft().x + getBottomRight().x) / 2,
                 (getTopLeft().y + getBottomRight().y) / 2);
-        Bullet bullet = gun.shoot(new Vector(centerPoint.x - (bulletSize.x / 2),
+        gun.shoot(new Vector(centerPoint.x - (bulletSize.x / 2),
                 centerPoint.y - (bulletSize.y / 2)),
                 new Vector(centerPoint.x + (bulletSize.x / 2),
                 centerPoint.y + (bulletSize.y / 2)), playerShootDamage);
-
-        bullet.spriteManager.setSprite(GameWindow.getSprite("pigBack1"));
-
-        GameManager.addEntity(bullet);
-        GameManager.bulletList.add(bullet);
-        GameWindow.objects.add(bullet);
     }
 
     public HPManager getHpManager() {

@@ -29,7 +29,6 @@ public class GameManager {
     public static void tick() {
         for (int i = 0; i < bulletList.size(); i++) {
             Bullet bullet = bulletList.get(i);
-
             bullet.move(new Vector(1, 0));
             for (Entity entity : entityList) {
                 if (entity.checkIntersects(bullet)) {
@@ -46,6 +45,8 @@ public class GameManager {
                 entity.move(movVect);
             }
         }
+
+        player.gun.reload();
 
         //handleCollisions();
         //updateScore();
