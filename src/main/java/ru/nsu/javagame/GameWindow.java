@@ -20,6 +20,7 @@ public class GameWindow {
 
     private final Canvas canvas = new Canvas(800, 600);
     private final GraphicsContext gc = canvas.getGraphicsContext2D();
+    public Scene scene;
 
     private final Map<String, Image> sprites = new HashMap<>();;
     private final Map<String, ArrayList<Image>> anims = new HashMap<>();;
@@ -29,14 +30,14 @@ public class GameWindow {
     double y = 0;
 
     public void init(Stage stage) {
-        startRegularUpdates();
         gc.setImageSmoothing(false);
+        startRegularUpdates();
 
         initSprites();
         initAnimations();
 
         Pane root = new Pane(canvas);
-        Scene scene = new Scene(root);
+        scene = new Scene(root);
 
         stage.setTitle("JavaGame");
         stage.setScene(scene);
