@@ -21,8 +21,9 @@ public class GameManager {
         enemyDamage = damage;
     }
 
-    public void initializeGame(Player player, List<Entity> enemies) {
+    public void initializeGame(Player player, List<Entity> enemies, List<Bullet> bullets) {
         this.player = player;
+        bulletList.addAll(bullets);
         entityList.addAll(enemies);
     }
 
@@ -106,6 +107,10 @@ public class GameManager {
 
     public void addEntity(Entity entity) {
         entityList.add(entity);
+    }
+
+    public void addBullet(Bullet bullet) {
+        bulletList.add(bullet);
     }
 
     public boolean isGameOver(){
