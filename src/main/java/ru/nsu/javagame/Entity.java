@@ -10,6 +10,10 @@ public class Entity extends Object implements Movement{
         return new Vector(0, 0);
     }
 
+    public Bullet fire() {
+        throw new UnsupportedOperationException("This entity can not shoot.");
+    }
+
     @Override
     public boolean move(Vector movVect) {
         throw new UnsupportedOperationException("Movement is not implemented.");

@@ -59,8 +59,18 @@ public class GameManager {
         }
     }
 
+    private void fireAll() {
+        Bullet playerBullet = player.fire();
+        bulletList.add(playerBullet);
+        for (Entity entity : entityList) {
+            Bullet entityBullet = entity.fire();
+            bulletList.add(entityBullet);
+        }
+    }
+
     public void tick() {
         moveAll();
+        fireAll();
         checkEnemyOrPlayerKill();
         handleCollisions();
         updateScore();

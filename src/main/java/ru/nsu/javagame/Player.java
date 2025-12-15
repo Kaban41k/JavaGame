@@ -24,14 +24,14 @@ public class Player extends Entity implements Movement{
         return true;
     }
 
-    public void fire() {
+    public Bullet fire() {
         Vector centerPoint = new Vector((getTopLeft().x + getBottomRight().x) / 2,
                 (getTopLeft().y + getBottomRight().y) / 2);
         Bullet bullet = gun.shoot(new Vector(centerPoint.x - (bulletSize.x / 2),
                 centerPoint.y - (bulletSize.y / 2)),
                 new Vector(centerPoint.x + (bulletSize.x / 2),
                 centerPoint.y + (bulletSize.y / 2)), playerShootDamage);
-        gameManager.addEntity(bullet);
+        return bullet;
 
     }
 

@@ -11,14 +11,15 @@ public class StaticEnemy extends Entity{
         super(topLeft, bottomRight);
     }
 
-    public void fire() {
+    @Override
+    public Bullet fire() {
         Vector centerPoint = new Vector((getTopLeft().x + getBottomRight().x) / 2,
                 (getTopLeft().y + getBottomRight().y) / 2);
         Bullet bullet = gun.shoot(new Vector(centerPoint.x - (bulletSize.x / 2),
                         centerPoint.y - (bulletSize.y / 2)),
                 new Vector(centerPoint.x + (bulletSize.x / 2),
                         centerPoint.y + (bulletSize.y / 2)), enemyShootDamage);
-        gameManager.addEntity(bullet);
+        return bullet;
 
     }
 
