@@ -21,12 +21,18 @@ public class Game extends Application {
 
         Player player = new Player(new Vector(0, 0), new Vector(100, 100), new HPManager(100), new Gun(Direction.RIGHT, 1), gameManager);
         player.spriteManager.setSprite(gameWindow.getSprite("gnome"));
-        player.spriteManager.x = 0;
-        player.spriteManager.y = 0;
 
         gameWindow.objects.add(player);
 
-        gameManager.initializeGame(player, new ArrayList<>());
+        Enemy enemy = new Enemy(new Vector(300, 200), new Vector(400, 300), 10, new Vector(-0.1, 0.1));
+        enemy.spriteManager.setSprite(gameWindow.getSprite("enemy"));
+
+        gameWindow.objects.add(enemy);
+
+        ArrayList<Entity> enemies = new ArrayList<>();
+        enemies.add(enemy);
+
+        gameManager.initializeGame(player, enemies);
         startRegularGameUpdates();
     }
 

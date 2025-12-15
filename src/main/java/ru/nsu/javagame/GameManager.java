@@ -45,7 +45,7 @@ public class GameManager {
             }
         }
 
-        handleCollisions();
+        //handleCollisions();
         updateScore();
         checkWinLose();
     }
