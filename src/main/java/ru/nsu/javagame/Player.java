@@ -4,19 +4,16 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Player extends Entity implements Movement{
-    private HPManager hpMan;
-    private Gun gun;
-    private GameManager gameManager;
+    public HPManager hpMan;
+    public Gun gun;
     private Vector bulletSize = new Vector((double) 2, (double) 2);
     private int playerShootDamage = 2;
 
-    public Player(Vector topLeft, Vector bottomRight, HPManager hp, Gun g, GameManager gm) {
+    public Player(Vector topLeft, Vector bottomRight, HPManager hp, Gun g) {
         super(topLeft, bottomRight);
         hpMan = hp;
         gun = g;
-        gameManager = gm;
     }
-
 
     public boolean move(Vector movVect) {
         setTopLeft(new Vector(getTopLeft().x + movVect.x, getTopLeft().y + movVect.y));
@@ -27,12 +24,10 @@ public class Player extends Entity implements Movement{
     public Bullet fire() {
         Vector centerPoint = new Vector((getTopLeft().x + getBottomRight().x) / 2,
                 (getTopLeft().y + getBottomRight().y) / 2);
-        Bullet bullet = gun.shoot(new Vector(centerPoint.x - (bulletSize.x / 2),
+        gun.shoot(new Vector(centerPoint.x - (bulletSize.x / 2),
                 centerPoint.y - (bulletSize.y / 2)),
                 new Vector(centerPoint.x + (bulletSize.x / 2),
                 centerPoint.y + (bulletSize.y / 2)), playerShootDamage);
-        return bullet;
-
     }
 
     public HPManager getHpManager() {

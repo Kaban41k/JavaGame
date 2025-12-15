@@ -13,9 +13,9 @@ public class PlayerTest {
         Vector bottomRight = new Vector(10, 10);
         HPManager hpMgr = new HPManager(100);
         Gun gun = new Gun(Direction.RIGHT, 10);
-        GameManager gameManager = new GameManager(hpMgr);
+        GameManager gameManager = new GameManager();
 
-        Player player = new Player(topLeft, bottomRight, hpMgr, gun, gameManager);
+        Player player = new Player(topLeft, bottomRight, hpMgr, gun);
         assertNotNull(player);
     }
 

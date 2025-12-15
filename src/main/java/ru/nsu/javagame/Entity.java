@@ -2,6 +2,8 @@ package ru.nsu.javagame;
 
 public class Entity extends Object implements Movement{
 
+    public SpriteManager spriteManager = new SpriteManager();
+
     public Entity(Vector topLeftCoordinates, Vector bottomRightCoordinates) {
         super(topLeftCoordinates, bottomRightCoordinates);
     }
