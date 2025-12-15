@@ -26,16 +26,9 @@ public class GameManager {
         entityList.addAll(enemies);
     }
 
-    public void tick() {
+    private void moveAll() {
         for (Bullet bullet : bulletList) {
             boolean move = bullet.move(new Vector(0, 0));
-            for (Entity entity : entityList) {
-                if (entity.checkIntersects(bullet)) {
-                    entityList.remove(entity);
-                    bulletList.remove(bullet);
-                    break;
-                }
-            }
         }
 
         for (Entity entity : entityList) {
@@ -44,7 +37,31 @@ public class GameManager {
                 entity.move(movVect);
             }
         }
+    }
 
+    private void checkEnemyOrPlayerKill() {
+        for (Bullet bullet : bulletList) {
+            for (Entity entity : entityList) {
+                if (entity.checkIntersects(bullet)) {
+                    entityList.remove(entity);
+                    bulletList.remove(bullet);
+                    break;
+                }
+                else if (player.checkIntersects(bullet)) {
+                    bulletList.remove(bullet);
+                    if (playerHealth.getHP() <= bullet.getDamage()) {
+                        playerHealth.damage(playerHealth.getHP() - bullet.getDamage());
+                        gameOver = true;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void tick() {
+        moveAll();
+        checkEnemyOrPlayerKill();
         handleCollisions();
         updateScore();
         checkWinLose();
