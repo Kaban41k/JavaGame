@@ -18,6 +18,9 @@ public class GameController {
                 case D:
                     Keyboard.keyPressed('D');
                     break;
+                case SPACE:
+                    Keyboard.keyPressed(' ');
+                    break;
                 default:
                     break;
             }
@@ -36,6 +39,11 @@ public class GameController {
                     break;
                 case D:
                     Keyboard.keyReleased('D');
+                    break;
+                case SPACE:
+                    Keyboard.keyReleased(' ');
+                    break;
+                default:
                     break;
             }
         });
@@ -56,6 +64,10 @@ public class GameController {
 
         if (Keyboard.isKeyPressed('D')) {
             GameManager.player.move(new Vector(1, 0));
+        }
+
+        if (Keyboard.isKeyPressed(' ')) {
+            GameManager.player.fire();
         }
     }
 }

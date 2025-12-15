@@ -16,25 +16,26 @@ import java.util.Map;
 import java.util.Objects;
 
 public class GameWindow {
-    private final int FPS = 100;
+    private static final Canvas canvas = new Canvas(800, 600);
+    private static final GraphicsContext gc = canvas.getGraphicsContext2D();
+    public static Scene scene;
 
-    private final Canvas canvas = new Canvas(800, 600);
-    private final GraphicsContext gc = canvas.getGraphicsContext2D();
-    public Scene scene;
-
-    private final Map<String, Image> sprites = new HashMap<>();;
-    private final Map<String, ArrayList<Image>> anims = new HashMap<>();;
-    public final ArrayList<Entity> objects = new ArrayList<>();
+    private static final Map<String, Image> sprites = new HashMap<>();;
+    private static final Map<String, ArrayList<Image>> anims = new HashMap<>();;
+    public static final ArrayList<Entity> objects = new ArrayList<>();
+    private static SpriteManager background = new SpriteManager();
 
     double x = 0;
     double y = 0;
 
-    public void init(Stage stage) {
+    public static void init(Stage stage) {
         gc.setImageSmoothing(false);
-        startRegularUpdates();
 
         initSprites();
         initAnimations();
+
+        setupBackground();
+        startRegularUpdates();
 
         Pane root = new Pane(canvas);
         scene = new Scene(root);
@@ -44,11 +45,11 @@ public class GameWindow {
         stage.show();
     }
 
-    private Image getImage(String name) {
-        return new Image(Objects.requireNonNull(getClass().getResourceAsStream(name)));
+    private static Image getImage(String name) {
+        return new Image(Objects.requireNonNull(GameWindow.class.getResourceAsStream(name)));
     }
 
-    private void initSprites() {
+    private static void initSprites() {
         sprites.put("background", getImage("/Background.png"));
         sprites.put("gnome", getImage("/GnomePlane.png"));
         sprites.put("enemy", getImage("/Enemy1.png"));
@@ -62,11 +63,11 @@ public class GameWindow {
         sprites.put("pigBack1", getImage("/anims/pigBack1.png"));
     }
 
-    public Image getSprite(String name) {
+    public static Image getSprite(String name) {
         return sprites.get(name);
     }
 
-    private void initAnimations() {
+    private static void initAnimations() {
         ArrayList<Image> pigBack = new ArrayList<>();
         pigBack.add(sprites.get("pigBack"));
         pigBack.add(sprites.get("pigBack1"));
@@ -79,9 +80,23 @@ public class GameWindow {
         anims.put("gnomeGo", gnomeGo);
     }
 
-    public void startRegularUpdates() {
+    public ArrayList<Image> getAnim(String name) {
+        return anims.get(name);
+    }
+
+    public void setBackground(Image sprite) {
+        background.setSprite(sprite);
+    }
+
+    public static void setupBackground() {
+        background.setSprite(getSprite("background"));
+        background.height = (int) (canvas.getHeight() * 2);
+        background.width = (int) (canvas.getWidth() * 2);
+    }
+
+    public static void startRegularUpdates() {
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds((double) 1 / FPS), event -> {
+                new KeyFrame(Duration.seconds((double) 1 / Game.FPS), event -> {
                     updateCanvas();
                 })
         );
@@ -91,47 +106,22 @@ public class GameWindow {
         timeline.play();
     }
 
-    private void updateCanvas() {
+    private static void updateCanvas() {
         gc.clearRect(0, 0, 800, 600);
         drawObjects();
     }
 
-    int frame = 0;
-    boolean flag = false;
+    private static void drawObjects() {
+        gc.drawImage(background.getSprite(),
+                background.x, background.y,
+                background.width, background.height);
 
-    private void gameUpdate() {
-        if (frame % (FPS * 8) == 0) {
-            objects.get(2).spriteManager.startAnimation(anims.get("pigBack"), false, FPS);
-        }
-
-        if (frame == FPS * 2) {
-            objects.get(1).spriteManager.startAnimation(anims.get("gnomeGo"), true, FPS / 10);
-        }
-
-        if (flag)
-            objects.get(1).spriteManager.y += 1;
-        else
-            objects.get(1).spriteManager.y -= 1;
-
-        if (objects.get(1).spriteManager.y < 0) {
-            flag = true;
-        }
-
-        if (objects.get(1).spriteManager.y > canvas.getHeight() - objects.get(1).spriteManager.height) {
-            flag = false;
-        }
-
-
-        frame++;
-    }
-
-    private void drawObjects() {
         for (Entity obj : objects) {
             obj.spriteManager.x = obj.getTopLeftOnScreen().x;
             obj.spriteManager.y = obj.getTopLeftOnScreen().y;
 
-            obj.spriteManager.width = (int) (obj.getBottomRightOnScreen().x - obj.getTopLeftOnScreen().x);
-            obj.spriteManager.height = (int) (obj.getBottomRightOnScreen().y - obj.getTopLeftOnScreen().y);
+            obj.spriteManager.width = (int) (obj.getBottomRight().x - obj.getTopLeft().x);
+            obj.spriteManager.height = (int) (obj.getBottomRight().y - obj.getTopLeft().y);
 
             gc.drawImage(obj.spriteManager.getSprite(),
                     obj.spriteManager.x, obj.spriteManager.y,

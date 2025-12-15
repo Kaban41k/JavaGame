@@ -14,7 +14,7 @@ public class PlayerTest {
         Gun gun = new Gun(Direction.RIGHT, 10);
         GameManager gameManager = new GameManager();
 
-        Player player = new Player(topLeft, bottomRight, hpMgr, gun, gameManager);
+        Player player = new Player(topLeft, bottomRight, hpMgr, gun);
         assertNotNull(player);
     }
 
@@ -26,7 +26,7 @@ public class PlayerTest {
 //        Gun gun = new Gun(Direction.RIGHT, 10);
 //        GameManager gameManager = new GameManager(hpMgr);
 //
-//        Player player = new Player(topLeft, bottomRight, hpMgr, gun, gameManager);
+//        Player player = new Player(topLeft, bottomRight, hpMgr, gun);
 //
 //        player.fire();
 //    }

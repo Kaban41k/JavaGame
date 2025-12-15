@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameManager {
-    static List<Entity> entityList = new ArrayList<>();
-    static List<Bullet> bulletList = new ArrayList<>();
+    static ArrayList<Entity> entityList = new ArrayList<>();
+    static ArrayList<Bullet> bulletList = new ArrayList<>();
     public static Player player;
     private static HPManager playerHealth;
     private CollisionManager collisionManager;
@@ -14,7 +14,7 @@ public class GameManager {
 
     public GameManager() {
         playerHealth = new HPManager(100);
-        collisionManager = new CollisionManager(this.entityList);
+        collisionManager = new CollisionManager(entityList);
     }
 
     public void setEnemyDamage(int damage) {
@@ -27,8 +27,10 @@ public class GameManager {
     }
 
     public static void tick() {
-        for (Bullet bullet : bulletList) {
-            boolean move = bullet.move(new Vector(0, 0));
+        for (int i = 0; i < bulletList.size(); i++) {
+            Bullet bullet = bulletList.get(i);
+
+            bullet.move(new Vector(1, 0));
             for (Entity entity : entityList) {
                 if (entity.checkIntersects(bullet)) {
                     entityList.remove(entity);
@@ -47,7 +49,7 @@ public class GameManager {
 
         //handleCollisions();
         //updateScore();
-        checkWinLose();
+        //checkWinLose();
     }
 
     private void handleCollisions() {
@@ -77,7 +79,7 @@ public class GameManager {
         }
     }
 
-    public void addEntity(Entity entity) {
+    public static void addEntity(Entity entity) {
         entityList.add(entity);
     }
 

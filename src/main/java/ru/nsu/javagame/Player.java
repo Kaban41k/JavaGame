@@ -6,15 +6,13 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Player extends Entity implements Movement{
     private HPManager hpMan;
     private Gun gun;
-    private GameManager gameManager;
     private Vector bulletSize = new Vector((double) 2, (double) 2);
     private int playerShootDamage = 2;
 
-    public Player(Vector topLeft, Vector bottomRight, HPManager hp, Gun g, GameManager gm) {
+    public Player(Vector topLeft, Vector bottomRight, HPManager hp, Gun g) {
         super(topLeft, bottomRight);
         hpMan = hp;
         gun = g;
-        gameManager = gm;
     }
 
     public boolean move(Vector movVect) {
@@ -32,8 +30,12 @@ public class Player extends Entity implements Movement{
                 centerPoint.y - (bulletSize.y / 2)),
                 new Vector(centerPoint.x + (bulletSize.x / 2),
                 centerPoint.y + (bulletSize.y / 2)), playerShootDamage);
-        gameManager.addEntity(bullet);
 
+        bullet.spriteManager.setSprite(GameWindow.getSprite("pigBack1"));
+
+        GameManager.addEntity(bullet);
+        GameManager.bulletList.add(bullet);
+        GameWindow.objects.add(bullet);
     }
 
     public HPManager getHpManager() {
