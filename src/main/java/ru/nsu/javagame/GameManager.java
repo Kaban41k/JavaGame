@@ -5,11 +5,12 @@ import java.util.List;
 
 public class GameManager {
     List<Entity> entityList = new ArrayList<>();
+    List<Bullet> bulletList = new ArrayList<>();
     private Player player;
     private HPManager playerHealth;
     private CollisionManager collisionManager;
     private boolean gameOver = false;
-    private int enemyDamage;
+    private int enemyDamage = 1;
 
     public GameManager(HPManager health) {
         playerHealth = health;
@@ -26,12 +27,24 @@ public class GameManager {
     }
 
     public void tick() {
+        for (Bullet bullet : bulletList) {
+            boolean move = bullet.move(new Vector(0, 0));
+            for (Entity entity : entityList) {
+                if (entity.checkIntersects(bullet)) {
+                    entityList.remove(entity);
+                    bulletList.remove(bullet);
+                    break;
+                }
+            }
+        }
+
         for (Entity entity : entityList) {
             if (entity instanceof Enemy) {
                 Vector movVect = entity.getMovVect();
                 entity.move(movVect);
             }
         }
+
         handleCollisions();
         updateScore();
         checkWinLose();
@@ -66,7 +79,6 @@ public class GameManager {
 
     public void addEntity(Entity entity) {
         entityList.add(entity);
-
     }
 
     public boolean isGameOver(){

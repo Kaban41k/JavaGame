@@ -11,7 +11,7 @@ public class Entity extends Object implements Movement{
     }
 
     public Vector getMovVect() {
-        return Vector(0, 0);
+        return new Vector(0, 0);
     }
 
     @Override
@@ -30,6 +30,14 @@ public class Entity extends Object implements Movement{
 
     public Vector getBottomRightOnScreen() {
         return bottomRightOnScreen;
+    }
+
+    public void setTopLeftOnScreen(Vector vect) {
+        topLeftOnScreen = vect;
+    }
+
+    public void setBottomRightOnScreen(Vector vect) {
+
     }
 
     public void changeScreenCoordinates(Vector topLeftOnScreen, Vector bottomRightOnScreen) {

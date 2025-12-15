@@ -1,14 +1,12 @@
 package ru.nsu.javagame;
 
 public class StaticEnemy extends Entity{
-    private int killDamage;
+    private Gun gun;
 
-    public StaticEnemy(Vector topLeft, Vector bottomRight, int points) {
+
+
+    public StaticEnemy(Vector topLeft, Vector bottomRight) {
         super(topLeft, bottomRight);
-        killDamage = points;
     }
 
-    public int getKillDamage() {
-        return killDamage;
-    }
 }
