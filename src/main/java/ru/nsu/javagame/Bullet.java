@@ -5,11 +5,16 @@ enum Direction {
     RIGHT
 };
 
+enum OwnerType {
+    ENEMY,
+    PLAYER
+};
+
 public class Bullet extends Entity{
     private Direction direction;
     private int bulletSpeed = 1;
     private int damage;
-    private Entity owner;
+    private OwnerType owner;
 
     public Bullet(Vector topLeft, Vector bottomRight, Direction dir, int dam) {
         super(topLeft, bottomRight);
@@ -17,15 +22,15 @@ public class Bullet extends Entity{
         damage = dam;
     }
 
-    public void setOwner(Entity ownr) {
+    public void setOwner(OwnerType ownr) {
         owner = ownr;
     }
 
-    public boolean isOwner(Entity ownr) {
+        public boolean isOwner(OwnerType ownr) {
         return ownr.equals(owner);
     }
 
-    public Entity getOwner() {
+    public OwnerType getOwner() {
         return owner;
     }
 

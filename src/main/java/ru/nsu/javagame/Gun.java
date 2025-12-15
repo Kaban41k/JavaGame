@@ -22,7 +22,7 @@ public class Gun {
             timer--;
     }
 
-    public void shoot(Vector topLeft, Vector bottomRight, int damage, Entity owner) {
+    public void shoot(Vector topLeft, Vector bottomRight, int damage, OwnerType owner) {
         if (isAbleToShoot) {
             timer = gunDelay;
             isAbleToShoot = false;

@@ -16,6 +16,6 @@ public class StaticEnemy extends Entity {
         gun.shoot(new Vector(centerPoint.x - (bulletSize.x / 2),
                         centerPoint.y - (bulletSize.y / 2)),
                 new Vector(centerPoint.x + (bulletSize.x / 2),
-                        centerPoint.y + (bulletSize.y / 2)), enemyShootDamage, this);
+                        centerPoint.y + (bulletSize.y / 2)), enemyShootDamage, OwnerType.ENEMY);
     }
 }

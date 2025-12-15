@@ -47,7 +47,7 @@ public class GameManager {
 
         for (Bullet bullet : bulletList) {
             for (Entity entity : entityList) {
-                if (!bullet.isOwner(entity) && entity.checkIntersects(bullet)) {
+                if (bullet.isOwner(OwnerType.PLAYER) && entity.checkIntersects(bullet)) {
                     if (!entitiesToRemove.contains(entity)) {
                         entitiesToRemove.add(entity);
                     }
@@ -63,13 +63,16 @@ public class GameManager {
         bulletList.removeAll(bulletsToRemove);
 
         for (Bullet bullet : bulletList) {
-            if (player.checkIntersects(bullet)) {
+            if (bullet.isOwner(OwnerType.ENEMY) && player.checkIntersects(bullet)) {
                 bulletsToRemovePlayer.add(bullet);
                 if (playerHealth.getHP() <= bullet.getDamage()) {
                     playerHealth.damage(playerHealth.getHP() - bullet.getDamage());
                     gameOver = true;
                     bulletList.removeAll(bulletsToRemovePlayer);
                     break;
+                }
+                else {
+                    playerHealth.damage(bullet.getDamage());
                 }
             }
         }
