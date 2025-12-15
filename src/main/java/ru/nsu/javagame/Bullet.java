@@ -16,14 +16,11 @@ public class Bullet extends Entity{
     private int damage;
     private OwnerType owner;
 
-    public Bullet(Vector topLeft, Vector bottomRight, Direction dir, int dam) {
+    public Bullet(Vector topLeft, Vector bottomRight, Direction dir, int dam, OwnerType own) {
         super(topLeft, bottomRight);
         direction = dir;
         damage = dam;
-    }
-
-    public void setOwner(OwnerType ownr) {
-        owner = ownr;
+        owner = own;
     }
 
         public boolean isOwner(OwnerType ownr) {

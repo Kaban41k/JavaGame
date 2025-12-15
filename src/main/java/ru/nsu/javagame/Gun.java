@@ -26,10 +26,9 @@ public class Gun {
         if (isAbleToShoot) {
             timer = gunDelay;
             isAbleToShoot = false;
-            Bullet bullet = new Bullet(topLeft, bottomRight, shootDirection, damage);
+            Bullet bullet = new Bullet(topLeft, bottomRight, shootDirection, damage, owner);
             bullet.setBulletSpeed(bulletSpeed);
             bullet.spriteManager.setSprite(GameWindow.getSprite("pigBack1"));
-            bullet.setOwner(owner);
 
             GameManager.addBullet(bullet);
             GameManager.bulletList.add(bullet);
