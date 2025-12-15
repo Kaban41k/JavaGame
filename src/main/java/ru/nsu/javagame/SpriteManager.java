@@ -19,8 +19,8 @@ public class SpriteManager {
     public int width = 200;
     public int height = 100;
 
-    public int x = 0;
-    public int y = 0;
+    public double x = 0;
+    public double y = 0;
 
     public void setSprite(Image img) {
         sprite = img;

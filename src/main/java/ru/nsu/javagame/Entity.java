@@ -4,6 +4,8 @@ public class Entity extends Object implements Movement{
     private Vector topLeftOnScreen;
     private Vector bottomRightOnScreen;
 
+    public SpriteManager spriteManager = new SpriteManager();
+
     public Entity(Vector topLeftCoordinates, Vector bottomRightCoordinates) {
         super(topLeftCoordinates, bottomRightCoordinates);
         this.topLeftOnScreen = topLeftCoordinates;
@@ -37,7 +39,7 @@ public class Entity extends Object implements Movement{
     }
 
     public void setBottomRightOnScreen(Vector vect) {
-
+        bottomRightOnScreen = vect;
     }
 
     public void changeScreenCoordinates(Vector topLeftOnScreen, Vector bottomRightOnScreen) {

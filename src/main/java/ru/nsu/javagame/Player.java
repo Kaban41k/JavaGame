@@ -17,7 +17,6 @@ public class Player extends Entity implements Movement{
         gameManager = gm;
     }
 
-
     public boolean move(Vector movVect) {
         setTopLeft(new Vector(getTopLeft().x + movVect.x, getTopLeft().y + movVect.y));
         setBottomRight(new Vector(getBottomRight().x + movVect.x, getBottomRight().y + movVect.y));

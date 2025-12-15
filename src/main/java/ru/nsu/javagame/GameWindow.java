@@ -16,50 +16,24 @@ import java.util.Map;
 import java.util.Objects;
 
 public class GameWindow {
-    private final int FPS = 60;
+    private final int FPS = 100;
 
     private final Canvas canvas = new Canvas(800, 600);
     private final GraphicsContext gc = canvas.getGraphicsContext2D();
 
     private final Map<String, Image> sprites = new HashMap<>();;
     private final Map<String, ArrayList<Image>> anims = new HashMap<>();;
-    private final ArrayList<SpriteManager> objects = new ArrayList<>();
+    public final ArrayList<Entity> objects = new ArrayList<>();
 
-    int x = 0;
-    int y = 0;
+    double x = 0;
+    double y = 0;
 
-    public void Init(Stage stage) {
+    public void init(Stage stage) {
+        startRegularUpdates();
         gc.setImageSmoothing(false);
 
         initSprites();
         initAnimations();
-
-        SpriteManager obj = new SpriteManager();
-        obj.setSprite(sprites.get("background"));
-        obj.width = (int) (canvas.getWidth() * 2);
-        obj.height = (int) (canvas.getHeight() * 2);
-        objects.add(obj);
-
-        obj = new SpriteManager();
-        obj.setSprite(sprites.get("gnome"));
-
-        objects.add(obj);
-
-        obj = new SpriteManager();
-        obj.setSprite(sprites.get("enemy"));
-        obj.width = 100;
-        obj.height = 100;
-        obj.x = 400;
-        obj.y = 400;
-        objects.add(obj);
-
-        obj = new SpriteManager();
-        obj.setSprite(sprites.get("enemy"));
-        obj.width = 100;
-        obj.height = 100;
-        obj.x = 700;
-        obj.y = 300;
-        objects.add(obj);
 
         Pane root = new Pane(canvas);
         Scene scene = new Scene(root);
@@ -85,6 +59,10 @@ public class GameWindow {
         sprites.put("pig", getImage("/pig.png"));
         sprites.put("pigBack", getImage("/anims/pigBack.png"));
         sprites.put("pigBack1", getImage("/anims/pigBack1.png"));
+    }
+
+    public Image getSprite(String name) {
+        return sprites.get(name);
     }
 
     private void initAnimations() {
@@ -113,8 +91,6 @@ public class GameWindow {
     }
 
     private void updateCanvas() {
-        gameUpdate();
-
         gc.clearRect(0, 0, 800, 600);
         drawObjects();
     }
@@ -124,28 +100,23 @@ public class GameWindow {
 
     private void gameUpdate() {
         if (frame % (FPS * 8) == 0) {
-            objects.get(2).startAnimation(anims.get("pigBack"), false, FPS);
+            objects.get(2).spriteManager.startAnimation(anims.get("pigBack"), false, FPS);
         }
-
-        if (frame % (FPS * 5) == 0) {
-            objects.get(3).startAnimation(anims.get("pigBack"), false, FPS);
-        }
-
 
         if (frame == FPS * 2) {
-            objects.get(1).startAnimation(anims.get("gnomeGo"), true, FPS / 10);
+            objects.get(1).spriteManager.startAnimation(anims.get("gnomeGo"), true, FPS / 10);
         }
 
         if (flag)
-            objects.get(1).y += 1;
+            objects.get(1).spriteManager.y += 1;
         else
-            objects.get(1).y -= 1;
+            objects.get(1).spriteManager.y -= 1;
 
-        if (objects.get(1).y < 0) {
+        if (objects.get(1).spriteManager.y < 0) {
             flag = true;
         }
 
-        if (objects.get(1).y > canvas.getHeight() - objects.get(1).height) {
+        if (objects.get(1).spriteManager.y > canvas.getHeight() - objects.get(1).spriteManager.height) {
             flag = false;
         }
 
@@ -154,7 +125,16 @@ public class GameWindow {
     }
 
     private void drawObjects() {
-        for (SpriteManager obj : objects)
-            gc.drawImage(obj.getSprite(), obj.x, obj.y, obj.width, obj.height);
+        for (Entity obj : objects) {
+            obj.spriteManager.x = obj.getTopLeftOnScreen().x;
+            obj.spriteManager.y = obj.getTopLeftOnScreen().y;
+
+            obj.spriteManager.width = (int) (obj.getBottomRightOnScreen().x - obj.getTopLeftOnScreen().x);
+            obj.spriteManager.height = (int) (obj.getBottomRightOnScreen().y - obj.getTopLeftOnScreen().y);
+
+            gc.drawImage(obj.spriteManager.getSprite(),
+                    obj.spriteManager.x, obj.spriteManager.y,
+                    obj.spriteManager.width, obj.spriteManager.height);
+        }
     }
 }

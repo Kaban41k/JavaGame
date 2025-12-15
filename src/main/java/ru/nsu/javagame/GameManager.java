@@ -6,14 +6,14 @@ import java.util.List;
 public class GameManager {
     List<Entity> entityList = new ArrayList<>();
     List<Bullet> bulletList = new ArrayList<>();
-    private Player player;
+    public Player player;
     private HPManager playerHealth;
     private CollisionManager collisionManager;
     private boolean gameOver = false;
     private int enemyDamage = 1;
 
-    public GameManager(HPManager health) {
-        playerHealth = health;
+    public GameManager() {
+        playerHealth = new HPManager(100);
         collisionManager = new CollisionManager(this.entityList);
     }
 
