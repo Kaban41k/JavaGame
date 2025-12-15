@@ -9,11 +9,6 @@ public class Player extends Entity implements Movement{
     private GameManager gameManager;
     private Vector bulletSize = new Vector((double) 2, (double) 2);
     private int playerShootDamage = 2;
-    private  final int BUFFER_SIZE = 10;
-    private Vector[] buffer = new Vector[BUFFER_SIZE];
-    private int head = 0;
-    private int tail = 0;
-    private Lock lock = new ReentrantLock();
 
     public Player(Vector topLeft, Vector bottomRight, HPManager hp, Gun g, GameManager gm) {
         super(topLeft, bottomRight);
@@ -29,7 +24,7 @@ public class Player extends Entity implements Movement{
         return true;
     }
 
-    public void fire(Bullet b) {
+    public void fire() {
         Vector centerPoint = new Vector((getTopLeft().x + getBottomRight().x) / 2,
                 (getTopLeft().y + getBottomRight().y) / 2);
         Bullet bullet = gun.shoot(new Vector(centerPoint.x - (bulletSize.x / 2),

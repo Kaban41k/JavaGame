@@ -9,6 +9,10 @@ public class Gun {
         shootDirection = d;
     }
 
+    public int getBulletSpeed() {
+        return bulletSpeed;
+    }
+
     public Bullet shoot(Vector topLeft, Vector bottomRight, int damage) {
         return new Bullet(topLeft, bottomRight, shootDirection, damage);
     }

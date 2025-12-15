@@ -11,7 +11,7 @@ public class Entity extends Object implements Movement{
     }
 
     @Override
-    public boolean move() {
+    public boolean move(Vector movVect) {
         throw new UnsupportedOperationException("Movement is not implemented.");
     }
 

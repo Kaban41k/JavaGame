@@ -8,8 +8,12 @@ public class Enemy extends StaticEnemy implements Movement{
         movVect = mov;
     }
 
+    public boolean cleanMove() {
+        move(movVect);
+    }
+
     @Override
-    public boolean move() {
+    public boolean move(Vector movVect) {
         setTopLeft(new Vector(getTopLeft().x + movVect.x, getTopLeft().y + movVect.y));
         setBottomRight(new Vector(getBottomRight().x + movVect.x, getBottomRight().y + movVect.y));
         return true;
