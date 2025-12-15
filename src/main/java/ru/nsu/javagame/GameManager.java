@@ -5,10 +5,11 @@ import java.util.List;
 
 public class GameManager {
     static ArrayList<Entity> entityList = new ArrayList<>();
+    static ArrayList<Enemy> enemyList = new ArrayList<>();
     static ArrayList<Bullet> bulletList = new ArrayList<>();
     public static Player player;
     private static HPManager playerHealth;
-    private CollisionManager collisionManager;
+    private static CollisionManager collisionManager;
     private static boolean gameOver = false;
     private static int enemyDamage = 1;
 
@@ -26,9 +27,9 @@ public class GameManager {
         entityList.addAll(enemies);
     }
 
-    private void moveAll() {
+    private static void moveAll() {
         for (Bullet bullet : bulletList) {
-            boolean move = bullet.move(new Vector(0, 0));
+            bullet.move(new Vector(1, 0));
         }
 
         for (Entity entity : entityList) {
@@ -39,7 +40,7 @@ public class GameManager {
         }
     }
 
-    private void checkEnemyOrPlayerKill() {
+    private static void checkEnemyOrPlayerKill() {
         for (Bullet bullet : bulletList) {
             for (Entity entity : entityList) {
                 if (entity.checkIntersects(bullet)) {
@@ -59,25 +60,26 @@ public class GameManager {
         }
     }
 
-    private void fireAll() {
-        Bullet playerBullet = player.fire();
-        bulletList.add(playerBullet);
-        for (Entity entity : entityList) {
-            Bullet entityBullet = entity.fire();
-            bulletList.add(entityBullet);
+    private static void fireAll() {
+        //player.fire();
+        player.gun.reload();
+        for (Enemy enemy : enemyList) {
+            enemy.fire();
+            enemy.gun.reload();
         }
     }
 
-    public void tick() {
+    public static void tick() {
         moveAll();
         fireAll();
-        checkEnemyOrPlayerKill();
-        handleCollisions();
-        updateScore();
-        checkWinLose();
+        //checkEnemyOrPlayerKill();
+        //handleCollisions();
+        //updateScore();
+        //checkWinLose();
+        GameWindow.moveBackground();
     }
 
-    private void handleCollisions() {
+    private static void handleCollisions() {
         collisionManager.checkForCollisions();
     }
 

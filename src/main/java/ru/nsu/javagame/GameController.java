@@ -50,20 +50,26 @@ public class GameController {
     }
 
     public static void keyEvent() {
+        GameManager.player.spriteManager.setSprite(GameWindow.getSprite("gnomeStay"));
+
         if (Keyboard.isKeyPressed('W')) {
-            GameManager.player.move(new Vector(0, -1));
+            GameManager.player.move(new Vector(0, -2));
+            GameManager.player.spriteManager.setSprite(GameWindow.getSprite("gnomeW"));
         }
 
         if (Keyboard.isKeyPressed('A')) {
-            GameManager.player.move(new Vector(-1, 0));
+            GameManager.player.move(new Vector(-2, 0));
+            GameManager.player.spriteManager.setSprite(GameWindow.getSprite("gnomeA"));
         }
 
         if (Keyboard.isKeyPressed('S')) {
-            GameManager.player.move(new Vector(0, 1));
+            GameManager.player.move(new Vector(0, 2));
+            GameManager.player.spriteManager.setSprite(GameWindow.getSprite("gnomeS"));
         }
 
         if (Keyboard.isKeyPressed('D')) {
-            GameManager.player.move(new Vector(1, 0));
+            GameManager.player.move(new Vector(2, 0));
+            GameManager.player.spriteManager.setSprite(GameWindow.getSprite("gnomeD"));
         }
 
         if (Keyboard.isKeyPressed(' ')) {

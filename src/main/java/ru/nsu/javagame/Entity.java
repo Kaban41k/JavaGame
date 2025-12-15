@@ -12,7 +12,7 @@ public class Entity extends Object implements Movement{
         return new Vector(0, 0);
     }
 
-    public Bullet fire() {
+    public void fire() {
         throw new UnsupportedOperationException("This entity can not shoot.");
     }
 

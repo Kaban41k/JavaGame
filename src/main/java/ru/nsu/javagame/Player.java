@@ -1,8 +1,5 @@
 package ru.nsu.javagame;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 public class Player extends Entity implements Movement{
     public HPManager hpMan;
     public Gun gun;
@@ -21,7 +18,7 @@ public class Player extends Entity implements Movement{
         return true;
     }
 
-    public Bullet fire() {
+    public void fire() {
         Vector centerPoint = new Vector((getTopLeft().x + getBottomRight().x) / 2,
                 (getTopLeft().y + getBottomRight().y) / 2);
         gun.shoot(new Vector(centerPoint.x - (bulletSize.x / 2),

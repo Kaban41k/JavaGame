@@ -16,14 +16,14 @@ import java.util.Map;
 import java.util.Objects;
 
 public class GameWindow {
-    private static final Canvas canvas = new Canvas(800, 600);
+    public static final Canvas canvas = new Canvas(800, 600);
     private static final GraphicsContext gc = canvas.getGraphicsContext2D();
     public static Scene scene;
 
     private static final Map<String, Image> sprites = new HashMap<>();;
     private static final Map<String, ArrayList<Image>> anims = new HashMap<>();;
     public static final ArrayList<Entity> objects = new ArrayList<>();
-    private static SpriteManager background = new SpriteManager();
+    private static ArrayList<SpriteManager> background = new ArrayList<>();
 
     double x = 0;
     double y = 0;
@@ -51,7 +51,14 @@ public class GameWindow {
 
     private static void initSprites() {
         sprites.put("background", getImage("/Background.png"));
-        sprites.put("gnome", getImage("/GnomePlane.png"));
+        sprites.put("backgroundL1", getImage("/BackgroundL1.png"));
+        sprites.put("backgroundL2", getImage("/BackgroundL2.png"));
+        sprites.put("gnomeStay", getImage("/gnomePlane/GnomePlaneStay.png"));
+        sprites.put("gnomeW", getImage("/gnomePlane/GnomePlaneUp.png"));
+        sprites.put("gnomeA", getImage("/gnomePlane/GnomePlaneBack.png"));
+        sprites.put("gnomeD", getImage("/gnomePlane/GnomePlaneForward.png"));
+        sprites.put("gnomeS", getImage("/gnomePlane/GnomePlaneDown.png"));
+
         sprites.put("enemy", getImage("/Enemy1.png"));
 
         sprites.put("gnomeGo1", getImage("/anims/GnomePlane1.png"));
@@ -85,13 +92,41 @@ public class GameWindow {
     }
 
     public void setBackground(Image sprite) {
-        background.setSprite(sprite);
+        background.get(0).setSprite(sprite);
     }
 
     public static void setupBackground() {
-        background.setSprite(getSprite("background"));
-        background.height = (int) (canvas.getHeight() * 2);
-        background.width = (int) (canvas.getWidth() * 2);
+        background.add(new SpriteManager());
+        background.get(0).setSprite(getSprite("background"));
+        background.get(0).width = (int) (canvas.getWidth() * 2);
+        background.get(0).height = (int) (canvas.getHeight() * 2);
+
+        background.add(new SpriteManager());
+        background.get(1).setSprite(getSprite("backgroundL1"));
+        background.get(1).width = 3200;
+        background.get(1).height = 150;
+        background.get(1).y = canvas.getHeight() - background.get(1).height - 50;
+
+        background.add(new SpriteManager());
+        background.get(2).setSprite(getSprite("backgroundL2"));
+        background.get(2).width = 3200;
+        background.get(2).height = 100;
+        background.get(2).y = canvas.getHeight() - background.get(2).height;
+    }
+
+    public static void moveBackground() {
+        background.get(1).x -= 2;
+
+        if (background.get(1).x <= -2400) {
+            background.get(1).x = 0;
+        }
+
+
+        background.get(2).x -= 4;
+
+        if (background.get(2).x <= -2400) {
+            background.get(2).x = 0;
+        }
     }
 
     public static void startRegularUpdates() {
@@ -112,13 +147,15 @@ public class GameWindow {
     }
 
     private static void drawObjects() {
-        gc.drawImage(background.getSprite(),
-                background.x, background.y,
-                background.width, background.height);
+        for (SpriteManager back : background) {
+            gc.drawImage(back.getSprite(),
+                    back.x, back.y,
+                    back.width, back.height);
+        }
 
         for (Entity obj : objects) {
-            obj.spriteManager.x = obj.getTopLeftOnScreen().x;
-            obj.spriteManager.y = obj.getTopLeftOnScreen().y;
+            obj.spriteManager.x = obj.getTopLeft().x;
+            obj.spriteManager.y = obj.getTopLeft().y;
 
             obj.spriteManager.width = (int) (obj.getBottomRight().x - obj.getTopLeft().x);
             obj.spriteManager.height = (int) (obj.getBottomRight().y - obj.getTopLeft().y);
