@@ -37,7 +37,7 @@ public class Entity extends Object implements Movement{
     }
 
     public void setBottomRightOnScreen(Vector vect) {
-
+        bottomRightOnScreen = vect;
     }
 
     public void changeScreenCoordinates(Vector topLeftOnScreen, Vector bottomRightOnScreen) {
