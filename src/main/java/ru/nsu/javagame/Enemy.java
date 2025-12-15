@@ -8,8 +8,9 @@ public class Enemy extends StaticEnemy implements Movement{
         movVect = mov;
     }
 
-    public boolean cleanMove() {
-        move(movVect);
+    @Override
+    public Vector getMovVect() {
+        return movVect;
     }
 
     @Override

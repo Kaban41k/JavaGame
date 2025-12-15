@@ -28,7 +28,8 @@ public class GameManager {
     public void tick() {
         for (Entity entity : entityList) {
             if (entity instanceof Enemy) {
-                entity.cleanMove();
+                Vector movVect = entity.getMovVect();
+                entity.move(movVect);
             }
         }
         handleCollisions();
@@ -50,7 +51,6 @@ public class GameManager {
     }
 
     private void updateScore() {
-        int prevPlayerHP = playerHealth.getHP();
         for (Entity entity : entityList) {
             if (player.checkIntersects(entity)) {
                 _updateScore(enemyDamage);

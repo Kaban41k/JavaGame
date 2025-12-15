@@ -10,6 +10,10 @@ public class Entity extends Object implements Movement{
         this.bottomRightOnScreen = bottomRightCoordinates;
     }
 
+    public Vector getMovVect() {
+        return Vector(0, 0);
+    }
+
     @Override
     public boolean move(Vector movVect) {
         throw new UnsupportedOperationException("Movement is not implemented.");
