@@ -29,38 +29,7 @@ public class CollisionManager {
                 }
             }
         }
-        checkBounds();
     }
 
-    private void checkBounds() {
-        for (Entity entity : entityList) {
-            Vector topLeft = entity.getTopLeft();
-            Vector bottomRight = entity.getBottomRight();
-            Vector screenTopLeft = entity.getTopLeftOnScreen();
-            Vector screenBottomRight = entity.getBottomRightOnScreen();
 
-            if (topLeft != screenTopLeft || bottomRight != screenBottomRight) {
-                entity.changeScreenCoordinates(topLeft, bottomRight);
-            }
-            if (topLeft.x < 0) {
-                Vector newTopLeft = new Vector((double) 0, topLeft.y);
-                entity.changeScreenCoordinates(newTopLeft, bottomRight);
-            }
-            if (topLeft.y > screenH) {
-                Vector newTopLeft = new Vector(topLeft.x, screenH);
-                entity.changeScreenCoordinates(newTopLeft, bottomRight);
-            }
-
-            if (bottomRight.x > screenW) {
-                Vector newBottomRight = new Vector(screenW, bottomRight.y);
-                entity.changeScreenCoordinates(topLeft, newBottomRight);
-            }
-
-            if (bottomRight.y < 0) {
-                Vector newBottomRight = new Vector(bottomRight.x, (double) 0);
-                entity.changeScreenCoordinates(topLeft, newBottomRight);
-            }
-
-        }
-    }
 }
