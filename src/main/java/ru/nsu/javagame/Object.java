@@ -1,8 +1,8 @@
 package ru.nsu.javagame;
 
 abstract class Object {
-    private Vector topLeftCoordinates;
-    private Vector bottomRightCoordinates;
+    private Vector topLeft;
+    private Vector bottomRight;
 
     protected Object (Vector topLeftCoordinates, Vector bottomRightCoordinates) {
         setTopLeft(topLeftCoordinates);
@@ -10,19 +10,19 @@ abstract class Object {
     }
 
     public void setTopLeft(Vector topLeftCoordinates){
-        this.topLeftCoordinates = topLeftCoordinates;
+        this.topLeft = topLeftCoordinates;
     }
 
     public void setBottomRight(Vector bottomRightCoordinates) {
-        this.bottomRightCoordinates = bottomRightCoordinates;
+        this.bottomRight = bottomRightCoordinates;
     }
 
     public Vector getTopLeft() {
-        return this.topLeftCoordinates;
+        return this.topLeft;
     }
 
     public Vector getBottomRight() {
-        return this.bottomRightCoordinates;
+        return this.bottomRight;
     }
 
     public boolean checkIntersects(Object other) {

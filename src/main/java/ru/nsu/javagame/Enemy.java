@@ -2,13 +2,13 @@ package ru.nsu.javagame;
 
 public class Enemy extends StaticEnemy implements Movement{
     private Vector movVect;
-    private int gunSpeed;
-    private Gun gun;
 
-    public Enemy(Vector topLeft, Vector bottomRight, int points, Vector mov) {
+
+    public Enemy(Vector topLeft, Vector bottomRight, Vector mov) {
         super(topLeft, bottomRight);
         movVect = mov;
     }
+
 
     @Override
     public Vector getMovVect() {

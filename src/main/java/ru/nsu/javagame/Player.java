@@ -18,12 +18,10 @@ public class Player extends Entity implements Movement{
     public boolean move(Vector movVect) {
         setTopLeft(new Vector(getTopLeft().x + movVect.x, getTopLeft().y + movVect.y));
         setBottomRight(new Vector(getBottomRight().x + movVect.x, getBottomRight().y + movVect.y));
-        setTopLeftOnScreen(getTopLeft());
-        setBottomRightOnScreen(getBottomRight());
         return true;
     }
 
-    public void fire() {
+    public Bullet fire() {
         Vector centerPoint = new Vector((getTopLeft().x + getBottomRight().x) / 2,
                 (getTopLeft().y + getBottomRight().y) / 2);
         gun.shoot(new Vector(centerPoint.x - (bulletSize.x / 2),

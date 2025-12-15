@@ -26,17 +26,9 @@ public class GameManager {
         entityList.addAll(enemies);
     }
 
-    public static void tick() {
-        for (int i = 0; i < bulletList.size(); i++) {
-            Bullet bullet = bulletList.get(i);
-            bullet.move(new Vector(1, 0));
-            for (Entity entity : entityList) {
-                if (entity.checkIntersects(bullet)) {
-                    entityList.remove(entity);
-                    bulletList.remove(bullet);
-                    break;
-                }
-            }
+    private void moveAll() {
+        for (Bullet bullet : bulletList) {
+            boolean move = bullet.move(new Vector(0, 0));
         }
 
         for (Entity entity : entityList) {
@@ -45,12 +37,44 @@ public class GameManager {
                 entity.move(movVect);
             }
         }
+    }
 
-        player.gun.reload();
+    private void checkEnemyOrPlayerKill() {
+        for (Bullet bullet : bulletList) {
+            for (Entity entity : entityList) {
+                if (entity.checkIntersects(bullet)) {
+                    entityList.remove(entity);
+                    bulletList.remove(bullet);
+                    break;
+                }
+                else if (player.checkIntersects(bullet)) {
+                    bulletList.remove(bullet);
+                    if (playerHealth.getHP() <= bullet.getDamage()) {
+                        playerHealth.damage(playerHealth.getHP() - bullet.getDamage());
+                        gameOver = true;
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
-        //handleCollisions();
-        //updateScore();
-        //checkWinLose();
+    private void fireAll() {
+        Bullet playerBullet = player.fire();
+        bulletList.add(playerBullet);
+        for (Entity entity : entityList) {
+            Bullet entityBullet = entity.fire();
+            bulletList.add(entityBullet);
+        }
+    }
+
+    public void tick() {
+        moveAll();
+        fireAll();
+        checkEnemyOrPlayerKill();
+        handleCollisions();
+        updateScore();
+        checkWinLose();
     }
 
     private void handleCollisions() {
