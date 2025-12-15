@@ -1,20 +1,36 @@
 package ru.nsu.javagame;
 
 public class Gun {
-    private int gunSpeed;
     private Direction shootDirection;
+    private int gunDelay;
+    private int timer = 0;
+    private boolean isAbleToShoot = true;
 
-    public Gun(Direction d, int speed) {
-        gunSpeed = speed;
+    public Gun(Direction d, int delay) {
+        gunDelay = delay;
         shootDirection = d;
     }
 
+    public void reload() {
+        if (isAbleToShoot) return;
 
-    public int getGunSpeed() {
-        return gunSpeed;
+        if (timer == 0)
+            isAbleToShoot = true;
+        else
+            timer--;
     }
 
-    public Bullet shoot(Vector topLeft, Vector bottomRight, int damage) {
-        return new Bullet(topLeft, bottomRight, shootDirection, damage);
+    public void shoot(Vector topLeft, Vector bottomRight, int damage) {
+        if (isAbleToShoot) {
+            timer = gunDelay;
+            isAbleToShoot = false;
+            Bullet bullet = new Bullet(topLeft, bottomRight, shootDirection, damage);
+
+            bullet.spriteManager.setSprite(GameWindow.getSprite("pigBack1"));
+
+            GameManager.addEntity(bullet);
+            GameManager.bulletList.add(bullet);
+            GameWindow.objects.add(bullet);
+        }
     }
 }

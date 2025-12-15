@@ -4,25 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameManager {
-    List<Entity> entityList = new ArrayList<>();
-    List<Bullet> bulletList = new ArrayList<>();
-    private Player player;
-    private HPManager playerHealth;
+    static ArrayList<Entity> entityList = new ArrayList<>();
+    static ArrayList<Bullet> bulletList = new ArrayList<>();
+    public static Player player;
+    private static HPManager playerHealth;
     private CollisionManager collisionManager;
-    private boolean gameOver = false;
-    private int enemyDamage = 1;
+    private static boolean gameOver = false;
+    private static int enemyDamage = 1;
 
-    public GameManager(HPManager health) {
-        playerHealth = health;
-        collisionManager = new CollisionManager(this.entityList);
+    public GameManager() {
+        playerHealth = new HPManager(100);
+        collisionManager = new CollisionManager(entityList);
     }
 
     public void setEnemyDamage(int damage) {
         enemyDamage = damage;
     }
 
-    public void initializeGame(Player player, List<Entity> enemies, List<Bullet> bullets) {
-        this.player = player;
+    public static void initializeGame(Player plr, List<Entity> enemies, List<Bullet> bullets) {
+        player = plr;
         bulletList.addAll(bullets);
         entityList.addAll(enemies);
     }
@@ -82,7 +82,7 @@ public class GameManager {
         collisionManager.checkForCollisions();
     }
 
-    private void _updateScore(int damage) {
+    private static void _updateScore(int damage) {
         if (playerHealth.getHP() > damage) {
             playerHealth.damage(damage);
         }
@@ -91,7 +91,7 @@ public class GameManager {
         }
     }
 
-    private void updateScore() {
+    private static void updateScore() {
         for (Entity entity : entityList) {
             if (player.checkIntersects(entity)) {
                 _updateScore(enemyDamage);
@@ -99,13 +99,13 @@ public class GameManager {
         }
     }
 
-    private void checkWinLose() {
+    private static void checkWinLose() {
         if (playerHealth.getHP() <= 0) {
             gameOver = true;
         }
     }
 
-    public void addEntity(Entity entity) {
+    public static void addEntity(Entity entity) {
         entityList.add(entity);
     }
 
