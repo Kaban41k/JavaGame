@@ -11,7 +11,7 @@ public class GameManager {
     private static CollisionManager collisionManager;
     private static boolean gameOver = false;
     private static boolean isWin = false;
-    private static int enemyDamage = 1;
+    private static int enemyDamage = 2;
 
     public void setEnemyDamage(int damage) {
         enemyDamage = damage;
@@ -66,14 +66,11 @@ public class GameManager {
         for (Bullet bullet : bulletList) {
             if (bullet.isOwner(OwnerType.ENEMY) && player.checkIntersects(bullet)) {
                 bulletsToRemovePlayer.add(bullet);
-                if (player.hpMan.getHP() <= bullet.getDamage()) {
-                    player.hpMan.damage(bullet.getDamage());
+                if (player.hpMan.damage(bullet.getDamage())) {
+
                     gameOver = true;
                     bulletList.removeAll(bulletsToRemovePlayer);
                     break;
-                }
-                else {
-                    player.hpMan.damage(bullet.getDamage());
                 }
             }
         }
