@@ -56,6 +56,10 @@ public class GameManager {
             }
         }
 
+        GameWindow.objects.removeAll(entitiesToRemove);
+        GameWindow.objects.removeAll(bulletsToRemove);
+
+        enemyList.removeAll(entitiesToRemove);
         entityList.removeAll(entitiesToRemove);
         bulletList.removeAll(bulletsToRemove);
 
@@ -75,6 +79,7 @@ public class GameManager {
         }
 
         bulletList.removeAll(bulletsToRemovePlayer);
+        GameWindow.objects.removeAll(bulletsToRemovePlayer);
     }
 
     private static void fireAll() {

@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -19,6 +20,7 @@ public class GameWindow {
     public static final Canvas canvas = new Canvas(800, 600);
     private static final GraphicsContext gc = canvas.getGraphicsContext2D();
     public static Scene scene;
+    public static Pane root;
 
     private static final Map<String, Image> sprites = new HashMap<>();;
     private static final Map<String, ArrayList<Image>> anims = new HashMap<>();
@@ -29,6 +31,8 @@ public class GameWindow {
 
     public static final int mainPanelHeight = 50;
 
+    static Label healthLabel;
+
     double x = 0;
     double y = 0;
 
@@ -38,12 +42,12 @@ public class GameWindow {
         initSprites();
         initAnimations();
 
+        root = new Pane(canvas);
+        scene = new Scene(root);
+
         setupBackground();
         setupUI();
         startRegularUpdates();
-
-        Pane root = new Pane(canvas);
-        scene = new Scene(root);
 
         stage.setTitle("JavaGame");
         stage.setScene(scene);
@@ -102,7 +106,7 @@ public class GameWindow {
     }
 
     public void setBackground(Image sprite) {
-        background.get(0).setSprite(sprite);
+        background.getFirst().setSprite(sprite);
     }
 
     public static void setupBackground() {
@@ -129,6 +133,13 @@ public class GameWindow {
         ui.getFirst().setSprite(getSprite("UIPanel"));
         ui.getFirst().width = (int) canvas.getWidth();
         ui.getFirst().height = mainPanelHeight;
+
+        healthLabel = new Label("HP: 100");
+        healthLabel.setLayoutX(80);
+        healthLabel.setLayoutY(15);
+        healthLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: white;");
+
+        root.getChildren().add(healthLabel);
     }
 
     public static void moveBackground() {
@@ -187,5 +198,7 @@ public class GameWindow {
                     panel.x, panel.y,
                     panel.width, panel.height);
         }
+
+        healthLabel.setText("HP: " + GameManager.player.getHpManager().getHP());
     }
 }
