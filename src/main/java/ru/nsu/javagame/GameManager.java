@@ -12,7 +12,6 @@ public class GameManager {
     private static boolean gameOver = false;
     private static boolean isWin = false;
     private static int enemyDamage = 2;
-    private static int intersectDamage = 3;
 
     public void setEnemyDamage(int damage) {
         enemyDamage = damage;
@@ -42,7 +41,6 @@ public class GameManager {
         List<Bullet> bulletsToRemove = new ArrayList<>();
         List<Bullet> bulletsToRemovePlayer = new ArrayList<>();
         List<Entity> entitiesToRemove = new ArrayList<>();
-        List<Entity> entitiesToRemovePlayer = new ArrayList<>();
 
         for (Bullet bullet : bulletList) {
             for (Entity entity : entityList) {
@@ -76,22 +74,9 @@ public class GameManager {
             }
         }
 
-        for (Entity entity : entityList) {
-            if (player.checkIntersects(entity)) {
-                if (player.hpMan.damage(intersectDamage)) {
-                    gameOver = true;
-                    entitiesToRemovePlayer.add(entity);
-                    break;
-                }
-            }
-        }
 
-
-        enemyList.removeAll(entitiesToRemovePlayer);
-        entityList.removeAll(entitiesToRemovePlayer);
         bulletList.removeAll(bulletsToRemovePlayer);
         GameWindow.objects.removeAll(bulletsToRemovePlayer);
-        GameWindow.objects.removeAll(entitiesToRemovePlayer);
     }
 
     private static void fireAll() {
