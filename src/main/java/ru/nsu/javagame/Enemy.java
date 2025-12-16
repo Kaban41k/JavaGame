@@ -16,7 +16,7 @@ public class Enemy extends StaticEnemy implements Movement{
 
     @Override
     public boolean move(Vector movVector) {
-        if (this.getTopLeft().y < 0)
+        if (this.getTopLeft().y < GameWindow.mainPanelHeight)
             movVect = new Vector(0, 1);
         if (this.getBottomRight().y > GameWindow.canvas.getHeight())
             movVect = new Vector(0, -1);

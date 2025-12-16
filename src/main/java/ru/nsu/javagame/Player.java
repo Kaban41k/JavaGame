@@ -3,7 +3,7 @@ package ru.nsu.javagame;
 public class Player extends Entity implements Movement{
     public HPManager hpMan;
     public Gun gun;
-    private Vector bulletSize = new Vector((double) 2, (double) 2);
+    private Vector bulletSize = new Vector((double) 6, (double) 3);
     private int playerShootDamage = 2;
 
     public Player(Vector topLeft, Vector bottomRight, HPManager hp, Gun g) {

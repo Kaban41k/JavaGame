@@ -13,11 +13,6 @@ public class GameManager {
     private static boolean gameOver = false;
     private static int enemyDamage = 1;
 
-    public GameManager() {
-        playerHealth = new HPManager(100);
-        collisionManager = new CollisionManager(entityList);
-    }
-
     public void setEnemyDamage(int damage) {
         enemyDamage = damage;
     }
@@ -25,6 +20,8 @@ public class GameManager {
     public static void initializeGame(Player plr, List<Entity> enemies) {
         player = plr;
         entityList.addAll(enemies);
+        collisionManager = new CollisionManager(entityList);
+        playerHealth = new HPManager(100);
     }
 
     private static void moveAll() {
@@ -41,23 +38,36 @@ public class GameManager {
     }
 
     private static void checkEnemyOrPlayerKill() {
+        List<Bullet> bulletsToRemove = new ArrayList<>();
+        List<Bullet> bulletsToRemovePlayer = new ArrayList<>();
+        List<Entity> entitiesToRemove = new ArrayList<>();
+
         for (Bullet bullet : bulletList) {
             for (Entity entity : entityList) {
                 if (entity.checkIntersects(bullet)) {
-                    entityList.remove(entity);
-                    bulletList.remove(bullet);
+                    entitiesToRemove.add(entity);
+                    bulletsToRemove.add(bullet);
                     break;
-                }
-                else if (player.checkIntersects(bullet)) {
-                    bulletList.remove(bullet);
-                    if (playerHealth.getHP() <= bullet.getDamage()) {
-                        playerHealth.damage(playerHealth.getHP() - bullet.getDamage());
-                        gameOver = true;
-                        break;
-                    }
                 }
             }
         }
+
+        entityList.removeAll(entitiesToRemove);
+        bulletList.removeAll(bulletsToRemove);
+
+        for (Bullet bullet : bulletList) {
+            if (player.checkIntersects(bullet)) {
+                bulletsToRemovePlayer.add(bullet);
+                if (playerHealth.getHP() <= bullet.getDamage()) {
+                    playerHealth.damage(playerHealth.getHP() - bullet.getDamage());
+                    gameOver = true;
+                    bulletList.removeAll(bulletsToRemovePlayer);
+                    break;
+                }
+            }
+        }
+
+        bulletList.removeAll(bulletsToRemovePlayer);
     }
 
     private static void fireAll() {
@@ -72,10 +82,10 @@ public class GameManager {
     public static void tick() {
         moveAll();
         fireAll();
-        //checkEnemyOrPlayerKill();
-        //handleCollisions();
-        //updateScore();
-        //checkWinLose();
+        checkEnemyOrPlayerKill();
+        handleCollisions();
+        updateScore();
+        checkWinLose();
         GameWindow.moveBackground();
     }
 

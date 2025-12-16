@@ -28,7 +28,7 @@ public class Gun {
             isAbleToShoot = false;
             Bullet bullet = new Bullet(topLeft, bottomRight, shootDirection, damage);
             bullet.setBulletSpeed(bulletSpeed);
-            bullet.spriteManager.setSprite(GameWindow.getSprite("pigBack1"));
+            bullet.spriteManager.setSprite(GameWindow.getSprite("bullet"));
 
             GameManager.addEntity(bullet);
             GameManager.bulletList.add(bullet);
