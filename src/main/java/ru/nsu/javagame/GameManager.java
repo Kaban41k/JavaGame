@@ -8,7 +8,6 @@ public class GameManager {
     static ArrayList<Enemy> enemyList = new ArrayList<>();
     static ArrayList<Bullet> bulletList = new ArrayList<>();
     public static Player player;
-    private static HPManager playerHealth;
     private static CollisionManager collisionManager;
     private static boolean gameOver = false;
     private static int enemyDamage = 1;
@@ -21,7 +20,7 @@ public class GameManager {
         player = plr;
         entityList.addAll(enemies);
         collisionManager = new CollisionManager(entityList);
-        playerHealth = new HPManager(100);
+        player.hpMan = new HPManager(2);
     }
 
     private static void moveAll() {
@@ -66,14 +65,14 @@ public class GameManager {
         for (Bullet bullet : bulletList) {
             if (bullet.isOwner(OwnerType.ENEMY) && player.checkIntersects(bullet)) {
                 bulletsToRemovePlayer.add(bullet);
-                if (playerHealth.getHP() <= bullet.getDamage()) {
-                    playerHealth.damage(playerHealth.getHP() - bullet.getDamage());
+                if (player.hpMan.getHP() <= bullet.getDamage()) {
+                    player.hpMan.damage(player.hpMan.getHP() - bullet.getDamage());
                     gameOver = true;
                     bulletList.removeAll(bulletsToRemovePlayer);
                     break;
                 }
                 else {
-                    playerHealth.damage(bullet.getDamage());
+                    player.hpMan.damage(bullet.getDamage());
                 }
             }
         }
@@ -106,8 +105,8 @@ public class GameManager {
     }
 
     private static void _updateScore(int damage) {
-        if (playerHealth.getHP() > damage) {
-            playerHealth.damage(damage);
+        if (player.hpMan.getHP() > damage) {
+            player.hpMan.damage(damage);
         }
         else {
             gameOver = true;
@@ -123,7 +122,7 @@ public class GameManager {
     }
 
     private static void checkWinLose() {
-        if (playerHealth.getHP() <= 0) {
+        if (player.hpMan.getHP() <= 0) {
             gameOver = true;
         }
     }

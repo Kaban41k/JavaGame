@@ -31,4 +31,5 @@ public class Player extends Entity implements Movement{
     public HPManager getHpManager() {
         return hpMan;
     }
+
 }
