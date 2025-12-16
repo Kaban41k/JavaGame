@@ -13,11 +13,6 @@ public class GameManager {
     private static boolean gameOver = false;
     private static int enemyDamage = 1;
 
-    public GameManager() {
-        playerHealth = new HPManager(100);
-        collisionManager = new CollisionManager(entityList);
-    }
-
     public void setEnemyDamage(int damage) {
         enemyDamage = damage;
     }
@@ -25,6 +20,8 @@ public class GameManager {
     public static void initializeGame(Player plr, List<Entity> enemies) {
         player = plr;
         entityList.addAll(enemies);
+        collisionManager = new CollisionManager(entityList);
+        playerHealth = new HPManager(100);
     }
 
     private static void moveAll() {

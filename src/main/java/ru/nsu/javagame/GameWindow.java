@@ -21,9 +21,13 @@ public class GameWindow {
     public static Scene scene;
 
     private static final Map<String, Image> sprites = new HashMap<>();;
-    private static final Map<String, ArrayList<Image>> anims = new HashMap<>();;
+    private static final Map<String, ArrayList<Image>> anims = new HashMap<>();
+
+    private static final ArrayList<SpriteManager> background = new ArrayList<>();
     public static final ArrayList<Entity> objects = new ArrayList<>();
-    private static ArrayList<SpriteManager> background = new ArrayList<>();
+    private static final ArrayList<SpriteManager> ui = new ArrayList<>();
+
+    public static final int mainPanelHeight = 50;
 
     double x = 0;
     double y = 0;
@@ -35,6 +39,7 @@ public class GameWindow {
         initAnimations();
 
         setupBackground();
+        setupUI();
         startRegularUpdates();
 
         Pane root = new Pane(canvas);
@@ -50,9 +55,10 @@ public class GameWindow {
     }
 
     private static void initSprites() {
-        sprites.put("background", getImage("/Background.png"));
-        sprites.put("backgroundL1", getImage("/BackgroundL1.png"));
-        sprites.put("backgroundL2", getImage("/BackgroundL2.png"));
+        sprites.put("background", getImage("/background/Background.png"));
+        sprites.put("backgroundL1", getImage("/background/BackgroundL1.png"));
+        sprites.put("backgroundL2", getImage("/background/BackgroundL2.png"));
+
         sprites.put("gnomeStay", getImage("/gnomePlane/GnomePlaneStay.png"));
         sprites.put("gnomeW", getImage("/gnomePlane/GnomePlaneUp.png"));
         sprites.put("gnomeA", getImage("/gnomePlane/GnomePlaneBack.png"));
@@ -65,9 +71,13 @@ public class GameWindow {
         sprites.put("gnomeGo2", getImage("/anims/GnomePlane2.png"));
         sprites.put("gnomeGo3", getImage("/anims/GnomePlane3.png"));
 
+        sprites.put("bullet", getImage("/Bullet.png"));
+
         sprites.put("pig", getImage("/pig.png"));
         sprites.put("pigBack", getImage("/anims/pigBack.png"));
         sprites.put("pigBack1", getImage("/anims/pigBack1.png"));
+
+        sprites.put("UIPanel", getImage("/UIPanel.png"));
     }
 
     public static Image getSprite(String name) {
@@ -97,9 +107,9 @@ public class GameWindow {
 
     public static void setupBackground() {
         background.add(new SpriteManager());
-        background.get(0).setSprite(getSprite("background"));
-        background.get(0).width = (int) (canvas.getWidth() * 2);
-        background.get(0).height = (int) (canvas.getHeight() * 2);
+        background.getFirst().setSprite(getSprite("background"));
+        background.getFirst().width = (int) (canvas.getWidth() * 2);
+        background.getFirst().height = (int) (canvas.getHeight() * 2);
 
         background.add(new SpriteManager());
         background.get(1).setSprite(getSprite("backgroundL1"));
@@ -112,6 +122,13 @@ public class GameWindow {
         background.get(2).width = 3200;
         background.get(2).height = 100;
         background.get(2).y = canvas.getHeight() - background.get(2).height;
+    }
+
+    public static void setupUI() {
+        ui.add(new SpriteManager());
+        ui.getFirst().setSprite(getSprite("UIPanel"));
+        ui.getFirst().width = (int) canvas.getWidth();
+        ui.getFirst().height = mainPanelHeight;
     }
 
     public static void moveBackground() {
@@ -163,6 +180,12 @@ public class GameWindow {
             gc.drawImage(obj.spriteManager.getSprite(),
                     obj.spriteManager.x, obj.spriteManager.y,
                     obj.spriteManager.width, obj.spriteManager.height);
+        }
+
+        for (SpriteManager panel : ui) {
+            gc.drawImage(panel.getSprite(),
+                    panel.x, panel.y,
+                    panel.width, panel.height);
         }
     }
 }
