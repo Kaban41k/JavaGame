@@ -44,10 +44,14 @@ public class GameManager {
 
         for (Bullet bullet : bulletList) {
             for (Entity entity : entityList) {
-                if (entity.checkIntersects(bullet)) {
-                    entitiesToRemove.add(entity);
-                    bulletsToRemove.add(bullet);
-                    break;
+                if (bullet.isOwner(OwnerType.PLAYER) && entity.checkIntersects(bullet)) {
+                    if (!entitiesToRemove.contains(entity)) {
+                        entitiesToRemove.add(entity);
+                    }
+                    if (!bulletsToRemove.contains(bullet)) {
+                        bulletsToRemove.add(bullet);
+                    }
+
                 }
             }
         }
@@ -56,13 +60,16 @@ public class GameManager {
         bulletList.removeAll(bulletsToRemove);
 
         for (Bullet bullet : bulletList) {
-            if (player.checkIntersects(bullet)) {
+            if (bullet.isOwner(OwnerType.ENEMY) && player.checkIntersects(bullet)) {
                 bulletsToRemovePlayer.add(bullet);
                 if (playerHealth.getHP() <= bullet.getDamage()) {
                     playerHealth.damage(playerHealth.getHP() - bullet.getDamage());
                     gameOver = true;
                     bulletList.removeAll(bulletsToRemovePlayer);
                     break;
+                }
+                else {
+                    playerHealth.damage(bullet.getDamage());
                 }
             }
         }
@@ -118,6 +125,10 @@ public class GameManager {
 
     public static void addEntity(Entity entity) {
         entityList.add(entity);
+    }
+
+    public static void addBullet(Bullet bullet) {
+        bulletList.add(bullet);
     }
 
     public boolean isGameOver(){

@@ -22,15 +22,15 @@ public class Gun {
             timer--;
     }
 
-    public void shoot(Vector topLeft, Vector bottomRight, int damage) {
+    public void shoot(Vector topLeft, Vector bottomRight, int damage, OwnerType owner) {
         if (isAbleToShoot) {
             timer = gunDelay;
             isAbleToShoot = false;
-            Bullet bullet = new Bullet(topLeft, bottomRight, shootDirection, damage);
+            Bullet bullet = new Bullet(topLeft, bottomRight, shootDirection, damage, owner);
             bullet.setBulletSpeed(bulletSpeed);
             bullet.spriteManager.setSprite(GameWindow.getSprite("bullet"));
 
-            GameManager.addEntity(bullet);
+            GameManager.addBullet(bullet);
             GameManager.bulletList.add(bullet);
             GameWindow.objects.add(bullet);
         }
