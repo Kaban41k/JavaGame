@@ -33,6 +33,8 @@ public class GameWindow {
 
     static Label healthLabel;
 
+    static boolean isGameOver = false;
+
     double x = 0;
     double y = 0;
 
@@ -199,24 +201,28 @@ public class GameWindow {
                     panel.width, panel.height);
         }
 
-        healthLabel.setText("HP: " + GameManager.player.getHpManager().getHP());
+        if (!isGameOver) {
+            healthLabel.setText("HP: " + GameManager.player.getHpManager().getHP());
 
-        if (GameManager.isGameOver() && !GameManager.isWin()) {
-            Label overLabel = new Label("GAME OVER");
-            overLabel.setLayoutX(canvas.getWidth() / 2);
-            overLabel.setLayoutY(canvas.getHeight() / 2);
-            overLabel.setStyle("-fx-font-size: 48px; -fx-text-fill: white;");
+            if (GameManager.isGameOver() && !GameManager.isWin()) {
+                Label overLabel = new Label("GAME OVER");
+                overLabel.setLayoutX(canvas.getWidth() / 2);
+                overLabel.setLayoutY(canvas.getHeight() / 2);
+                overLabel.setStyle("-fx-font-size: 48px; -fx-text-fill: white;");
 
-            root.getChildren().add(overLabel);
-        }
+                root.getChildren().add(overLabel);
+            }
 
-        if (GameManager.isGameOver() && GameManager.isWin()) {
-            Label overLabel = new Label("WIN");
-            overLabel.setLayoutX(canvas.getWidth() / 2);
-            overLabel.setLayoutY(canvas.getHeight() / 2);
-            overLabel.setStyle("-fx-font-size: 48px; -fx-text-fill: white;");
+            if (GameManager.isGameOver() && GameManager.isWin()) {
+                Label overLabel = new Label("WIN");
+                overLabel.setLayoutX(canvas.getWidth() / 2);
+                overLabel.setLayoutY(canvas.getHeight() / 2);
+                overLabel.setStyle("-fx-font-size: 48px; -fx-text-fill: white;");
 
-            root.getChildren().add(overLabel);
+                root.getChildren().add(overLabel);
+            }
+
+            isGameOver = true;
         }
     }
 }
