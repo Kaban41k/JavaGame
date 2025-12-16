@@ -65,7 +65,7 @@ public class GameManager {
         for (Bullet bullet : bulletList) {
             if (bullet.isOwner(OwnerType.ENEMY) && player.checkIntersects(bullet)) {
                 bulletsToRemovePlayer.add(bullet);
-                if (player.hpMan.damage(player.hpMan.getHP() - bullet.getDamage())) {
+                if (player.hpMan.damage(bullet.getDamage())) {
                     gameOver = true;
                     bulletList.removeAll(bulletsToRemovePlayer);
                     break;
