@@ -10,6 +10,7 @@ public class GameManager {
     public static Player player;
     private static CollisionManager collisionManager;
     private static boolean gameOver = false;
+    private static boolean isWin = false;
     private static int enemyDamage = 1;
 
     public void setEnemyDamage(int damage) {
@@ -20,7 +21,7 @@ public class GameManager {
         player = plr;
         entityList.addAll(enemies);
         collisionManager = new CollisionManager(entityList);
-        player.hpMan = new HPManager(2);
+        player.hpMan = new HPManager(9);
     }
 
     private static void moveAll() {
@@ -65,10 +66,14 @@ public class GameManager {
         for (Bullet bullet : bulletList) {
             if (bullet.isOwner(OwnerType.ENEMY) && player.checkIntersects(bullet)) {
                 bulletsToRemovePlayer.add(bullet);
-                if (player.hpMan.damage(player.hpMan.getHP() - bullet.getDamage())) {
+                if (player.hpMan.getHP() <= bullet.getDamage()) {
+                    player.hpMan.damage(bullet.getDamage());
                     gameOver = true;
                     bulletList.removeAll(bulletsToRemovePlayer);
                     break;
+                }
+                else {
+                    player.hpMan.damage(bullet.getDamage());
                 }
             }
         }
@@ -121,6 +126,11 @@ public class GameManager {
         if (player.hpMan.getHP() <= 0) {
             gameOver = true;
         }
+
+        if (enemyList.isEmpty()) {
+            gameOver = true;
+            isWin = true;
+        }
     }
 
     public static void addEntity(Entity entity) {
@@ -131,7 +141,11 @@ public class GameManager {
         bulletList.add(bullet);
     }
 
-    public boolean isGameOver(){
+    public static boolean isGameOver(){
         return gameOver;
+    }
+
+    public static boolean isWin(){
+        return isWin;
     }
 }

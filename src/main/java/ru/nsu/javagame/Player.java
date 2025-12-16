@@ -4,7 +4,7 @@ public class Player extends Entity implements Movement{
     public HPManager hpMan;
     public Gun gun;
     private Vector bulletSize = new Vector((double) 6, (double) 3);
-    private int playerShootDamage = 2;
+    private int playerShootDamage = 1;
 
     public Player(Vector topLeft, Vector bottomRight, HPManager hp, Gun g) {
         super(topLeft, bottomRight);

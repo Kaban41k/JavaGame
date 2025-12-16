@@ -3,7 +3,7 @@ package ru.nsu.javagame;
 public class StaticEnemy extends Entity {
     private Vector bulletSize = new Vector((double) 3, (double) 3);
     public Gun gun = new Gun(Direction.LEFT, (int) (Game.TPS * 3), 1);
-    private int enemyShootDamage = 2;
+    private int enemyShootDamage = 1;
 
     public StaticEnemy(Vector topLeft, Vector bottomRight) {
         super(topLeft, bottomRight);
