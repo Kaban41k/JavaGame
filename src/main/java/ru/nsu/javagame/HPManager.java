@@ -15,6 +15,7 @@ public class HPManager {
 
     public boolean damage(int damage) {
         currentHP -= damage;
+        System.out.println("Damage");
         return currentHP <= 0;
     }
 
