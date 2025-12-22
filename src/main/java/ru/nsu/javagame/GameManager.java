@@ -43,6 +43,8 @@ public class GameManager {
         List<Bullet> bulletsToRemovePlayer = new ArrayList<>();
         List<Entity> entitiesToRemove = new ArrayList<>();
 
+        List<Entity> entitiesToRemovePlayer = new ArrayList<>();
+
         for (Bullet bullet : bulletList) {
             for (Entity entity : entityList) {
                 if (bullet.isOwner(OwnerType.PLAYER) && entity.checkIntersects(bullet)) {
@@ -75,7 +77,23 @@ public class GameManager {
             }
         }
 
+        for (Enemy enemy : enemyList) {
+            if (player.checkIntersects(enemy)) {
+                entitiesToRemovePlayer.add(enemy);
+                if (player.hpMan.damage(intersectDamage)) {
+                    gameOver = true;
+                    enemyList.removeAll(entitiesToRemovePlayer);
+                    entityList.removeAll(entitiesToRemovePlayer);
+                    break;
+                }
+            }
+        }
+
+
+        enemyList.removeAll(entitiesToRemovePlayer);
+        entityList.removeAll(entitiesToRemovePlayer);
         bulletList.removeAll(bulletsToRemovePlayer);
+        GameWindow.objects.removeAll(entitiesToRemovePlayer);
         GameWindow.objects.removeAll(bulletsToRemovePlayer);
     }
 
