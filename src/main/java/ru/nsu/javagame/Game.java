@@ -36,8 +36,10 @@ public class Game extends Application {
     public void startRegularGameUpdates() {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds((double) 1 / TPS), event -> {
-                    GameController.keyEvent();
-                    GameManager.tick();
+                    if (!GameManager.isGameOver()) {
+                        GameController.keyEvent();
+                        GameManager.tick();
+                    }
                 })
         );
 

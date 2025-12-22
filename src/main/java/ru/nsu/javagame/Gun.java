@@ -30,7 +30,6 @@ public class Gun {
             bullet.setBulletSpeed(bulletSpeed);
             bullet.spriteManager.setSprite(GameWindow.getSprite("bullet"));
 
-            GameManager.addBullet(bullet);
             GameManager.bulletList.add(bullet);
             GameWindow.objects.add(bullet);
         }

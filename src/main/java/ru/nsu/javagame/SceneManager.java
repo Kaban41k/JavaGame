@@ -33,6 +33,13 @@ public class SceneManager {
         GameManager.enemyList.add(enemy);
         result.add(enemy);
 
+        enemy = new Enemy(new Vector(600, 400), new Vector(650, 450), new Vector(0, 1));
+        enemy.spriteManager.setSprite(GameWindow.getSprite("enemy"));
+
+        GameWindow.objects.add(enemy);
+        GameManager.enemyList.add(enemy);
+        result.add(enemy);
+
         return result;
     }
 }
